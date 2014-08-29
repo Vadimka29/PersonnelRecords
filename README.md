@@ -1,4 +1,4 @@
 PersonnelRecords
 ================
 
-This software is intended for employees records.
+This software is intended for employees records. Created by Vadym Akymov.
