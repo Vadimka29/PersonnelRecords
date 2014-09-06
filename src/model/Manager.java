@@ -1,4 +1,4 @@
-package employee;
+package model;
 
 public class Manager extends Employee {
 	private int bonusForEachSalary;

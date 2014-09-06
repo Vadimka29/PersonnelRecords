@@ -1,4 +1,4 @@
-package employee;
+package model;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -106,5 +106,9 @@ public class Employee {
 	}
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+	//count of all employees
+	public static long getEmployeeCounter(){
+		return employeeCounter;
 	}
 }

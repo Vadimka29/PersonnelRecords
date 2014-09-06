@@ -1,4 +1,4 @@
-package employee;
+package model;
 
 public class DivisionManager extends Manager {
 	private int coefficientForEachSalary;
