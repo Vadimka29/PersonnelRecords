@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import controller.ConsoleController;
 import list.MyArrayList;
 import model.*;
 
@@ -27,6 +28,7 @@ public class PersonnelRecords {
 		list.add(dm);
 		list.add(d);
 		lst.add(d);
-		System.out.println(list);
+		//System.out.println(list);
+		ConsoleController cc = new ConsoleController();
 	}
 }
