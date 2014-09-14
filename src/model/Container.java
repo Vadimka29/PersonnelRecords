@@ -73,6 +73,14 @@ public class Container implements Serializable {
 				findResult.add(e);
 		}
 	}
+	public void getAllEmployeeFromDepartment(MyArrayList<Employee> findResult, Department department){
+		int size = list.size();
+		for(int i = 0; i < size; i++){
+			Employee e = list.get(i);
+			if(e.getDepartment() == department)
+				findResult.add(e);
+		}
+	}
 	/**
 	 * Remove employee from list by id.
 	 * @param id - identifier of employee.

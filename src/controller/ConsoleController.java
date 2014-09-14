@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 import list.MyArrayList;
@@ -83,6 +82,9 @@ public class ConsoleController {
 			case "exit":
 				saveInfo();
 				System.exit(0);
+			case "report":
+				makeReport(data);
+				break;
 			default:
 				System.out.println("Invalid command! Try to input command once more!");
 				break;
@@ -194,7 +196,10 @@ public class ConsoleController {
 			} else {
 				em.paySalary(salarySize, date);
 			}
-		} catch(IllegalArgumentException e){
+		} catch(NumberFormatException e0){
+			System.out.println("Illegal argument!");
+		}
+		catch(IllegalArgumentException e){
 			System.out.println(e.getMessage());
 			return;
 		} catch(ClassCastException e){
@@ -230,11 +235,13 @@ public class ConsoleController {
 			return;
 		}
 	}
+
 	/**
 	 * Find employees by id, birthday date, first letter of lastName.
+	 * 
 	 * @param data
 	 */
-	private void findRecord(String[] data){
+	private void findRecord(String[] data) {
 		String option = null;
 		String prefix = null;
 		GregorianCalendar fromGc = null;
@@ -243,7 +250,7 @@ public class ConsoleController {
 		try {
 			option = data[1].toLowerCase();
 			MyArrayList<Employee> findResult = new MyArrayList<>();
-			switch(option){
+			switch (option) {
 			case "id":
 				findResult.clear();
 				id = Long.parseLong(data[2]);
@@ -254,24 +261,53 @@ public class ConsoleController {
 				findResult.clear();
 				prefix = data[2];
 				container.find(findResult, prefix);
-				System.out.println(findResult);
+				if(findResult.isEmpty())
+					System.out.println("No Finding Result!");
+				else
+					System.out.println(findResult);
 				break;
 			case "birthday":
 				findResult.clear();
 				fromGc = parseDate(data[2]);
 				toGc = parseDate(data[3]);
 				container.find(findResult, fromGc, toGc);
-				System.out.println(findResult);
+				if(findResult.isEmpty())
+					System.out.println("No Finding Result!");
+				else
+					System.out.println(findResult);
 				break;
 			default:
 				System.out.println("Invalid command! Try to input command once more!");
 				break;
 			}
-		} catch(IllegalArgumentException e1){
+		} catch(NumberFormatException e0){
+			System.out.println("Illegal argument!");
+		} catch (IllegalArgumentException e1) {
 			System.out.println(e1.getMessage());
-		} catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("Invalid command! Try to input command once more!");
-			return;
+		}
+	}
+	private void makeReport(String[] data){
+		String format = null;
+		Department department = null;
+		try {
+			format = data[1].toLowerCase();
+			department = Department.valueOf(data[2]);
+			MyArrayList<Employee> findResult = new MyArrayList<>();
+			switch(format){
+			case "html":
+				findResult.clear();
+				container.getAllEmployeeFromDepartment(findResult, department);
+				ReportController.makeHtmlReport(findResult);
+				break;
+			}
+		} catch(IllegalArgumentException e){
+			System.out.println(e.getMessage());
+		} catch(ClassCastException e1){
+			System.out.println("Illegal format");
+		} catch(Exception e2){
+			System.out.println("Invalid command! Try to input command once more!");
 		}
 	}
 	/**
