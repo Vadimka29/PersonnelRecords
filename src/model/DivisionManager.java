@@ -1,6 +1,7 @@
 package model;
 
 public class DivisionManager extends Manager {
+	private static final long serialVersionUID = -5128850219614523977L;
 	private int coefficientForEachSalary;
 	
 	public DivisionManager(String firstName, String lastName, String department) {

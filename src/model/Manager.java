@@ -1,6 +1,7 @@
 package model;
 
 public class Manager extends Employee {
+	private static final long serialVersionUID = -1692645806639353707L;
 	private int bonusForEachSalary;
 	
 	public Manager(String firstName, String lastName, String department) {
@@ -30,7 +31,7 @@ public class Manager extends Employee {
 	@Override
 	public String toString(){
 		StringBuffer toReturn = new StringBuffer(super.toString());
-		toReturn.append("Bonus for each salary: " + bonusForEachSalary + "\n");
+		toReturn.append("Bonus for each salary: " + bonusForEachSalary + "$\n");
 		return toReturn.toString();
 	}
 	//getters and setters

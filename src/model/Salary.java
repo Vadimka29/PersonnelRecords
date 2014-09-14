@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
-class Salary {
+public class Salary implements Serializable {
+	private static final long serialVersionUID = -8665434408863773195L;
 	private int salarySize;
 	private GregorianCalendar date;
 	
@@ -34,9 +36,10 @@ class Salary {
 	@Override
 	public String toString(){
 		StringBuffer toReturn = new StringBuffer();
-		toReturn.append("Salary: " + salarySize);
-		SimpleDateFormat sdf = 	new SimpleDateFormat("FF.dd.yyyy");
-		toReturn.append(" Date: " + sdf.format(date));
+		toReturn.append("Salary: " + salarySize + "$___");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		toReturn.append("Date: " + sdf.format(date.getTime()));
+		toReturn.append("\n");
 		return toReturn.toString();
 	}
 	//getters and setters

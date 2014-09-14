@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
-public class Employee {
+public class Employee implements Serializable {
+	private static final long serialVersionUID = 7494431400780761504L;
 	private static long employeeCounter;
 	private long id;
 	private String firstName;
@@ -14,14 +16,16 @@ public class Employee {
 	private LinkedList<Salary> salaryList;
 	private String address;
 	private String phone;
-	private String department;
+	private Department department;
 	
 	public Employee(String firstName, String lastName, String department){
 		id = employeeCounter;
 		salaryList = new LinkedList<>();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.department = department;
+		try {
+			this.department = Department.valueOf(department);
+		} catch(IllegalArgumentException e){System.out.println("There is no such department!");}
 		employeeCounter ++;
 	}
 
@@ -45,11 +49,17 @@ public class Employee {
 		Salary s = new Salary(salarySize, year, month, day);
 		salaryList.addLast(s);
 	}
+	public void paySalary(int salarySize, GregorianCalendar date){
+		Salary s = new Salary(salarySize, date);
+		salaryList.addLast(s);
+	}
 	
 	@Override
 	public String toString(){
 		StringBuffer toReturn = new StringBuffer();
 		toReturn.append("ID: " + id + "\n");
+		//Use reflection to determine the class of employee
+		toReturn.append("Position: " + this.getClass().getName().substring(6) + "\n");
 		toReturn.append("First name: " + firstName + "\n");
 		toReturn.append("Last name: " + lastName + "\n");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -101,14 +111,19 @@ public class Employee {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getDepartment() {
+	public Department getDepartment() {
 		return department;
 	}
 	public void setDepartment(String department) {
-		this.department = department;
+		try {
+			this.department = Department.valueOf(department);
+		} catch(IllegalArgumentException e){System.out.println("There is no such department!");}
 	}
 	//count of all employees
 	public static long getEmployeeCounter(){
 		return employeeCounter;
+	}
+	public static void setEmployeeCounter(long counter){
+		employeeCounter = counter;
 	}
 }

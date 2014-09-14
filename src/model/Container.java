@@ -1,10 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+
 import list.MyArrayList;
 
-public class Container {
+public class Container implements Serializable {
+	private static final long serialVersionUID = 4347067379740606799L;
 	private MyArrayList<Employee> list;
+	
 	
 	public Container(){
 		list = new MyArrayList<>();
@@ -13,16 +18,43 @@ public class Container {
 	public boolean add(Employee em){
 		return list.add(em);
 	}
-	public boolean remove(int id){
+	public int size(){
+		return list.size();
+	}
+	public boolean isEmpty(){
+		return list.isEmpty();
+	}
+	public MyArrayList<Employee> getType(String queryType){
+		MyArrayList<Employee> listofCertainEmployee = new MyArrayList<>();
+		Iterator<Employee> it = list.iterator();
+		while(it.hasNext()){
+			Employee e = it.next();
+			//myarraylist can store null
+			if (e != null) {
+				String employeeType = e.getClass().getName().substring(6).toLowerCase();
+				if (queryType.equals(employeeType))
+					listofCertainEmployee.add(e);
+			}
+		}
+		if(listofCertainEmployee.isEmpty())
+			throw new IllegalArgumentException("There is no such type of employee or list of employees is empty!");
+		return listofCertainEmployee;
+	}
+	/**
+	 * Find Employee with certain id.
+	 * @param id - identifier of employee.
+	 * @return
+	 */
+	public Employee find(long id) throws IllegalArgumentException{
 		int size = list.size();
 		for(int i = 0; i < size; i++){
-			if(list.get(i).getId() == id)
-				return (list.remove(id) == null)? true: false;
+			Employee e = list.get(i);
+			if(id == e.getId())
+				return e;
 		}
-		return false;
+		throw new IllegalArgumentException("There are not any employees with such id!");
 	}
-	public MyArrayList<Employee> find(String prefix){
-		MyArrayList<Employee> findResult = new MyArrayList<>();
+	public void find(MyArrayList<Employee> findResult,String prefix){
 		int size = list.size();
 		for(int i = 0; i < size; i++){
 			Employee e = list.get(i);
@@ -30,10 +62,8 @@ public class Container {
 			if(lastName.startsWith(prefix))
 				findResult.add(e);
 		}
-		return findResult;
-	}
-	public MyArrayList<Employee> find(GregorianCalendar from, GregorianCalendar to){
-		MyArrayList<Employee> findResult = new MyArrayList<>();
+	}		
+	public void find(MyArrayList<Employee> findResult, GregorianCalendar from, GregorianCalendar to){
 		int size = list.size();
 		for(int i = 0; i < size; i++){
 			Employee e = list.get(i);
@@ -42,6 +72,24 @@ public class Container {
 			if(birthday.after(from) && birthday.before(to))
 				findResult.add(e);
 		}
-		return findResult;
-	}	
+	}
+	/**
+	 * Remove employee from list by id.
+	 * @param id - identifier of employee.
+	 * @return remove status.
+	 */
+	public boolean remove(long id) {
+		try {
+			Employee em = find(id);
+			list.remove(em);
+			return true;
+		} catch(IllegalArgumentException e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+	@Override
+	public String toString(){
+		return list.toString();
+	}
 }

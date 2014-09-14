@@ -1,5 +1,7 @@
 package list;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,7 +9,8 @@ import java.util.List;
 
 public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable<E> {
 	private static final long serialVersionUID = -220286038234083605L;
-	private Object[] elements;
+	//Object isn't serializable
+	private transient Object[] elements;
 	private int size;
 	
 	//inner class iterator
@@ -260,6 +263,22 @@ public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable
 				it.next();
 		}
 		return list;
+	}
+	private void writeObject(ObjectOutputStream stream) throws java.io.IOException{
+		//write length
+		stream.writeInt(elements.length);
+		stream.writeInt(size);
+		//write each element
+		for(int i = 0; i < size; i++)
+			stream.writeObject(elements[i]);
+	}
+	private void readObject(ObjectInputStream stream) throws java.io.IOException, ClassNotFoundException{
+		//read length of array
+		int capacity = stream.readInt();
+		size = stream.readInt();
+		elements = new Object[capacity];
+		for(int i = 0; i < size; i++)
+			elements[i] = stream.readObject();
 	}
 	public Object[] toArray(){
 		return Arrays.copyOf(elements, size);
