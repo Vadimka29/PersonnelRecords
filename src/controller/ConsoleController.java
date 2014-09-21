@@ -14,7 +14,7 @@ import model.*;
 public class ConsoleController {
 	private static ConsoleController controller;
 	private Scanner sc;
-	private Container container;
+	private static ModelContainer container;
 
 	//Singleton
 	public static ConsoleController getInstance(){
@@ -24,20 +24,7 @@ public class ConsoleController {
 	}
 	private ConsoleController() {
 		//read  container object from save.bin
-		File file = new File("save.bin");
-		if(file.exists()){
-			try(FileInputStream fis = new FileInputStream(file);
-					ObjectInputStream ois = new ObjectInputStream(fis);){
-				long employeeCounter = ois.readLong();
-				Employee.setEmployeeCounter(employeeCounter);
-				container = (Container) ois.readObject();
-			} catch(Exception e){
-				System.out.println("Attention! There is problem of reading save.bin. New list of employees is created!");
-				container = new Container();
-			}
-		}
-		else
-			container = new Container();
+		container = readModelFromBinFile();
 		System.out.println("\t<----------Hello! This is console version of program!---------->");
 		sc = new Scanner(System.in);
 		for (;;) {
@@ -213,25 +200,27 @@ public class ConsoleController {
 			return;
 		}
 	}
-	private void showSalaries(String[] data){
+
+	private void showSalaries(String[] data) {
 		long id;
 		try {
 			id = Long.parseLong(data[1]);
 			Employee em = container.find(id);
-			if(em.getSalaries().isEmpty())
+			if (em.getSalaries().isEmpty())
 				System.out.println("Employee doesn't have salaries!");
 			else {
-				System.out.println(em.getId() + "." + em.getFirstName() +
-						" " + em.getLastName() + "'s salaries: " );
-				for(Salary salary: em.getSalaries())
+				System.out.println(em.getId() + "." + em.getFirstName() + " "
+						+ em.getLastName() + "'s salaries: ");
+				for (Salary salary : em.getSalaries())
 					System.out.print(salary);
 			}
-		}  catch(IllegalArgumentException e1){
-			//System.out.println(e1.getMessage());
+		} catch (IllegalArgumentException e1) {
+			// System.out.println(e1.getMessage());
 			e1.printStackTrace();
 			return;
-		} catch(Exception e){
-			System.out.println("Invalid command! Try to input command once more!");
+		} catch (Exception e) {
+			System.out
+					.println("Invalid command! Try to input command once more!");
 			return;
 		}
 	}
@@ -464,5 +453,23 @@ public class ConsoleController {
 		sb.append("17) SHOW HELP: " + "help\n");
 		sb.append("18) EXIT: "  + "exit\n");
 		System.out.println(sb.toString());
+	}
+	public static ModelContainer readModelFromBinFile(){
+		ModelContainer mc = null;
+		File file = new File("save.bin");
+		if(file.exists()){
+			try(FileInputStream fis = new FileInputStream(file);
+					ObjectInputStream ois = new ObjectInputStream(fis);){
+				long employeeCounter = ois.readLong();
+				Employee.setEmployeeCounter(employeeCounter);
+				mc = (ModelContainer) ois.readObject();
+			} catch(Exception e){
+				System.out.println("Attention! There is problem of reading save.bin. New list of employees is created!");
+				mc = new ModelContainer();
+			}
+		}
+		else
+			mc = new ModelContainer();
+		return mc;
 	}
 }

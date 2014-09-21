@@ -1,14 +1,27 @@
-import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-import controller.ConsoleController;
-import list.MyArrayList;
-import model.*;
+import view.PassWindow;
 
 public class PersonnelRecords {
 	public static void main(String[] args){
-		//P.S. Нужно реализовать абстрактную фабрику, которая будет требовать
-		//реализовать методы подтягивания для каждого класса.
-		//
-		ConsoleController cc = ConsoleController.getInstance();
+		String option = null;
+		if(args.length > 0){
+			option = args[0].toLowerCase();
+		switch (option) {
+		case "console":
+			PassWindow cw = PassWindow.getInstance(option);
+			break;
+		case "gui":
+			PassWindow gw  = PassWindow.getInstance(option);
+			break;
+		default:
+			String message = "There is no such program mode!";
+			JOptionPane.showMessageDialog(new JFrame(), message,
+					"ERROR", JOptionPane.ERROR_MESSAGE);
+			break;
+		}
+		}
+		PassWindow defaultGuiWindow = PassWindow.getInstance("gui");
 	}
 }

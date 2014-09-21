@@ -31,6 +31,7 @@ public class DivisionManager extends Manager {
 				coefficientForEachSalary * salarySize, year, month, day);
 	}
 	
+	@Override
 	public String toString(){
 		StringBuffer toReturn = new StringBuffer(super.toString());
 		toReturn.append("Coefficient for each salary: " + coefficientForEachSalary + "\n");

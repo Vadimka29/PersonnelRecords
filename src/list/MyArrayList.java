@@ -5,7 +5,6 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable<E> {
 	private static final long serialVersionUID = -220286038234083605L;
@@ -73,7 +72,7 @@ public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable
 		int oldCapacity = elements.length;
 		//formula for speed optimization
 		int newCapacity = (oldCapacity*3)/2 + 1;
-		if(newCapacity - Integer.MAX_VALUE < 0)
+		if(newCapacity - Integer.MAX_VALUE - 8 > 0)
 			throw new OutOfMemoryError();
 		elements = Arrays.copyOf(elements, newCapacity);
 	}
@@ -127,7 +126,7 @@ public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable
 	}
 	@Override
 	public Object clone(){
-		MyArrayList<E> list = new MyArrayList<>();
+		MyArrayList<E> list = new MyArrayList<E>();
 		list.elements = Arrays.copyOf(elements, size);
 		list.size = this.size;
 		return list;
@@ -287,6 +286,7 @@ public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable
 	public Iterator<E> iterator() {
 		return new InnerIter();
 	}
+	@Override
 	public String toString(){
 		StringBuffer toReturn = new StringBuffer();
 		toReturn.append("********** LIST OF EMPLOYEES **********\n");

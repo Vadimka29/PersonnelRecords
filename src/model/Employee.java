@@ -20,7 +20,7 @@ public class Employee implements Serializable {
 	
 	public Employee(String firstName, String lastName, String department){
 		id = employeeCounter;
-		salaryList = new LinkedList<>();
+		salaryList = new LinkedList<Salary>();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		try {

@@ -6,13 +6,13 @@ import java.util.Iterator;
 
 import list.MyArrayList;
 
-public class Container implements Serializable {
+public class ModelContainer implements Serializable {
 	private static final long serialVersionUID = 4347067379740606799L;
 	private MyArrayList<Employee> list;
 	
 	
-	public Container(){
-		list = new MyArrayList<>();
+	public ModelContainer(){
+		list = new MyArrayList<Employee>();
 	}
 	//подумать потом о производительности методов, пока O(n)
 	public boolean add(Employee em){
@@ -80,6 +80,9 @@ public class Container implements Serializable {
 			if(e.getDepartment() == department)
 				findResult.add(e);
 		}
+	}
+	public MyArrayList<Employee> getAllEmployees(){
+		return list;
 	}
 	/**
 	 * Remove employee from list by id.
