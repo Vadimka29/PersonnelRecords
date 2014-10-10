@@ -78,6 +78,8 @@ public class MyArrayList<E> implements java.io.Serializable, Cloneable, Iterable
 	}
 	public boolean add(int index, E e){
 		//check array bounds
+		//нужно исправить !!!!!! Вызвать метод rangeCheckForAdd(int index) вместо этого
+		//метод нужно дописать
 		rangeCheck(index);
 		int minCapacity = size + 1;
 		checkCapacity(minCapacity);
